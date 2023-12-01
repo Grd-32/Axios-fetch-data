@@ -1,23 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Axios from 'axios';
+import { useState } from "react";
 
 function App() {
+  const [jokes, setJokes] = useState();
+
+  const getJoke = () => {
+   Axios.get("https://official-joke-api.appspot.com/random_joke").then((response) => {
+    console.log(response)
+    setJokes(response.data.setup + " ... " + response.data.punchline)
+   })
+  }
+
+  // const getJoke = () => {
+  //   fetch("https://official-joke-api.appspot.com/random_joke").then(
+  //     (response) =>
+  //       response.json().then((data) => {
+  //         setJokes(data.setup + " ... " + data.punchline);
+  //         console.log(response);
+  //       })
+  //   );
+  // };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h3>
+        Random jokes <button onClick={getJoke}>new joke or you!</button>
+      </h3>
+      <p>{jokes}</p>
     </div>
   );
 }
